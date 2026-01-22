@@ -17,6 +17,22 @@ Key Features:
 - Allows per-module configuration for pointer types, nullable parameters, enum/class/function exclusions, and macro defines.
 - Can process a single YAML file or recursively process all generate.yaml files in a directory.
 
+Installation:
+-------------
+
+Clone the repository and install the package using pip:
+
+```
+    pip install .
+```
+
+Or, 
+
+```
+    pip install git+https://github.com/sundials-codes/sundials4py-generate.git
+```
+
+
 Usage:
 ------
 
