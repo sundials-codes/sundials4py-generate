@@ -28,13 +28,15 @@ Note:
 """
 
 import argparse
-import srcmlcpp
-import litgen
-from codemanip import code_utils
-import yaml
-from litgen_extensions import *
-import os
 import glob
+import os
+
+import litgen
+import srcmlcpp
+import yaml
+from codemanip import code_utils
+
+from litgen_extensions import *
 
 
 def generate(config_yaml_path, dump_srcml=False):
@@ -42,7 +44,7 @@ def generate(config_yaml_path, dump_srcml=False):
 
     options = litgen.LitgenOptions()
     options.bind_library = litgen.BindLibraryType.nanobind
-    options.python_run_black_formatter = True
+    options.python_run_black_formatter = False
     options.python_convert_to_snake_case = False
 
     # These are types in SUNDIALS which are typedefs to pointers to structs
@@ -156,7 +158,7 @@ def generate(config_yaml_path, dump_srcml=False):
         if dump_srcml:
             srcmlcpp_options = options.srcmlcpp_options
             cpp_unit = srcmlcpp.code_to_cpp_unit(srcmlcpp_options, source_code)
-            with open(f'{module["path"]}.xml', "w") as file:
+            with open(f"{module['path']}.xml", "w") as file:
                 file.write(cpp_unit.str_code())
             continue
 

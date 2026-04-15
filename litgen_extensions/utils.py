@@ -1,6 +1,7 @@
+import re
+
 import litgen
 from litgen.internal.adapted_types import AdaptedFunction, AdaptedParameter
-import re
 
 
 def generate_code(options, source_code):

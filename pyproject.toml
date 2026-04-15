@@ -22,8 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "black",
-    "isort",
+    "ruff",
 ]
 
 [project.urls]
@@ -31,6 +30,14 @@ Homepage = "https://computing.llnl.gov/projects/sundials"
 Documentation = "https://sundials.readthedocs.io/"
 Source = "https://github.com/LLNL/sundials"
 
-[tool.black]
+[tool.ruff]
 line-length = 99
-skip_magic_trailing_comma = true
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+select = ["I"]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
