@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import litgen
 from litgen.internal.adapted_types import AdaptedFunction
 from srcmlcpp.cpp_types import CppPublicProtectedPrivate

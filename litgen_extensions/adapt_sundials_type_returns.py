@@ -1,10 +1,12 @@
 import copy
 import re
 from typing import Optional
+
 from codemanip import code_utils
-from srcmlcpp.cpp_types import CppParameter  # noqa: F401 (used for type hints only)
 from litgen.internal.adapt_function_params._lambda_adapter import LambdaAdapter
 from litgen.internal.adapted_types import AdaptedFunction
+from srcmlcpp.cpp_types import CppParameter  # noqa: F401 (used for type hints only)
+
 from .utils import is_array_param
 
 
@@ -60,7 +62,7 @@ def adapt_sundials_types_returns_to_shared_ptr(
             typenames = param.cpp_element().decl.cpp_type.typenames
             if suncontext_typename in typenames:
                 adapted_function.cpp_element().cpp_element_comments.add_eol_comment(
-                    f"nb::call_policy<sundials4py::returns_references_to<{idx+1}, {idx_nurse_args}>>()"
+                    f"nb::call_policy<sundials4py::returns_references_to<{idx + 1}, {idx_nurse_args}>>()"
                 )
 
         # Only deepcopy if mutation is required
@@ -117,7 +119,7 @@ def adapt_sundials_types_returns_to_shared_ptr(
             typenames = param.cpp_element().decl.cpp_type.typenames
             if suncontext_typename in typenames:
                 adapted_function.cpp_element().cpp_element_comments.add_eol_comment(
-                    f"nb::keep_alive<0, {idx+1}>()"
+                    f"nb::keep_alive<0, {idx + 1}>()"
                 )
 
         # Only deepcopy if mutation is required

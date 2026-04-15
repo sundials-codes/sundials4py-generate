@@ -2,17 +2,15 @@
 # and modified to exclude _<1|2|3>d parameters in sundials.
 
 from __future__ import annotations
+
 import copy
 from typing import Optional
 
-from munch import Munch  # type: ignore
-
 from codemanip import code_utils
-
-from srcmlcpp.cpp_types import CppParameter, CppType
-
 from litgen.internal.adapt_function_params._lambda_adapter import LambdaAdapter
 from litgen.internal.adapted_types import AdaptedFunction, AdaptedParameter
+from munch import Munch  # type: ignore
+from srcmlcpp.cpp_types import CppParameter, CppType
 
 from .utils import is_array_param
 
@@ -102,7 +100,9 @@ def adapt_modifiable_immutable_to_return(
             # For signatures like
             #       void foo(bool * flag = NULL);
             # the python param type will be type Optional[BoxedBool]
-            def compute_is_optional_boxed_type(old_adapted_param=old_adapted_param, is_pointer=is_pointer) -> bool:  # type: ignore
+            def compute_is_optional_boxed_type(
+                old_adapted_param=old_adapted_param, is_pointer=is_pointer
+            ) -> bool:  # type: ignore
                 initial_value_cpp = old_adapted_param.cpp_element().decl.initial_value_code
                 is_initial_value_null = initial_value_cpp in ["NULL", "nullptr"]
                 return is_pointer and is_initial_value_null

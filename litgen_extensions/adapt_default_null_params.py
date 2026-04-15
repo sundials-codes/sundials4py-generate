@@ -1,10 +1,12 @@
 import copy
 import re
 from typing import Optional
+
 from codemanip import code_utils
-from srcmlcpp.cpp_types import CppParameter
 from litgen.internal.adapt_function_params._lambda_adapter import LambdaAdapter
 from litgen.internal.adapted_types import AdaptedFunction, AdaptedParameter
+from srcmlcpp.cpp_types import CppParameter
+
 from .utils import match_regex
 
 
