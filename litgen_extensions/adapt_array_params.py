@@ -58,12 +58,12 @@ def adapt_array_pointer_to_std_vector(
                     )
                 dimensions = "***"
 
-            if is_float_type(base_type):
+            if use_numpy_array_type(base_type, function_name):
                 new_param = copy.deepcopy(old_param.cpp_element())
                 new_decl = new_param.decl
                 new_decl.cpp_type.modifiers = []
                 new_decl.cpp_type.specifiers = []
-                new_decl.cpp_type.typenames = ["sundials4py::Array1d"]
+                new_decl.cpp_type.typenames = [numpy_array_alias(base_type)]
                 new_decl.initial_value_code = ""
                 new_function_params.append(new_param)
 
@@ -100,6 +100,26 @@ def adapt_array_pointer_to_std_vector(
 
 def is_float_type(cpp_type: str):
     return cpp_type in ["float", "double", "sunrealtype"]
+
+
+def is_integer_type(cpp_type: str):
+    return cpp_type in ["int", "long", "long int"]
+
+
+def use_numpy_array_type(cpp_type: str, function_name: str):
+    # Primitive output arrays must bind directly to NumPy memory so SUNDIALS
+    # can write results back into the caller-owned buffer.
+    return is_float_type(cpp_type) or (is_integer_type(cpp_type) and "Get" in function_name)
+
+
+def numpy_array_alias(cpp_type: str):
+    if is_float_type(cpp_type):
+        return "sundials4py::Array1d"
+    if cpp_type == "int":
+        return "sundials4py::IntArray1d"
+    if cpp_type in ["long", "long int"]:
+        return "sundials4py::LongArray1d"
+    raise RuntimeError(f"no NumPy array alias configured for C++ type {cpp_type}")
 
 
 def count_stars(cpp_type: str):
