@@ -4,6 +4,8 @@ Overview:
 ---------
 
 - Parses a YAML configuration file (generate.yaml) describing modules and header files to process.
+- Wraps generated module functions with ``sundials4py::scoped_def`` so custom-object
+  exceptions are re-raised after native calls return.
 - Configures litgen options for SUNDIALS-specific pointer types, enum handling, function adapters, and other binding behaviors.
 - Reads C/C++ header files, optionally dumps their srcML XML representation, or generates Python binding code.
 - Writes the generated binding code to specified output files.

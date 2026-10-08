@@ -39,6 +39,20 @@ from codemanip import code_utils
 from litgen_extensions import *
 
 
+def scope_python_facing_functions(code):
+    """Make generated module functions propagate custom-object exceptions.
+
+    ``scoped_def`` constructs ``CustomExceptionScope`` inside the registered
+    callable, after nanobind has converted its arguments.  Applying the
+    transformation only to litgen's pydef output leaves glue code and class
+    method definitions unchanged.
+    """
+
+    return code.replace("m.def(\n", "sundials4py::scoped_def(m,\n").replace(
+        "m.def(", "sundials4py::scoped_def(m, "
+    )
+
+
 def generate(config_yaml_path, dump_srcml=False):
     print(f"generating from {config_yaml_path}")
 
@@ -167,7 +181,7 @@ def generate(config_yaml_path, dump_srcml=False):
         if "path" in module:
             with open(module["path"], "w") as file:
                 file.write(generated_code.glue_code)
-                file.write(generated_code.pydef_code)
+                file.write(scope_python_facing_functions(generated_code.pydef_code))
             # Not sure how we would combine generated and custom code for stubs
             # with open(f'{module["path"]}.pyi', 'w') as file:
             #   file.write(generated_code.stub_code)
